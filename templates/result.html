@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flood Prediction Result</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            min-height: 100vh;
+        }
+
+        nav {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .nav-logo {
+            color: white;
+            font-size: 22px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 25px;
+            font-size: 15px;
+        }
+
+        .result-container {
+            max-width: 800px;
+            margin: 60px auto;
+            padding: 20px;
+        }
+
+        .result-card {
+            background: white;
+            border-radius: 20px;
+            padding: 50px 40px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: bounce 1s ease infinite alternate;
+        }
+
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-10px); }
+        }
+
+        .result-title {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .result-box {
+            font-size: 42px;
+            font-weight: 900;
+            padding: 20px 40px;
+            border-radius: 15px;
+            color: white;
+            margin: 20px 0;
+            letter-spacing: 2px;
+            animation: pulse 2s ease infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        .flood { background: linear-gradient(135deg, #e53935, #b71c1c); }
+        .no-flood { background: linear-gradient(135deg, #43a047, #1b5e20); }
+
+        .result-message {
+            font-size: 17px;
+            color: #555;
+            margin: 20px 0 30px;
+            line-height: 1.6;
+        }
+
+        /* Risk Meter */
+        .risk-meter {
+            margin: 30px 0;
+        }
+
+        .risk-meter h3 {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .meter-bar {
+            background: #e0e0e0;
+            border-radius: 50px;
+            height: 20px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .meter-fill {
+            height: 100%;
+            border-radius: 50px;
+            transition: width 1.5s ease;
+            animation: fillBar 1.5s ease forwards;
+        }
+
+        .meter-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #888;
+        }
+
+        /* Recommendations */
+        .recommendations {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+            text-align: left;
+        }
+
+        .recommendations h3 {
+            font-size: 16px;
+            color: #1a3a5c;
+            margin-bottom: 15px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .rec-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 12px;
+            font-size: 14px;
+            color: #444;
+        }
+
+        .rec-item i {
+            color: #1a73e8;
+            margin-top: 2px;
+            min-width: 16px;
+        }
+
+        /* Buttons */
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 28px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #1a73e8, #0d47a1);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(26,115,232,0.4);
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+            transform: translateY(-2px);
+        }
+
+        footer {
+            text-align: center;
+            color: rgba(255,255,255,0.5);
+            padding: 20px;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-logo">
+            <i class="fas fa-water"></i>
+            FloodGuard AI
+        </div>
+        <div class="nav-links">
+            <a href="/"><i class="fas fa-home"></i> Home</a>
+            <a href="/about"><i class="fas fa-info-circle"></i> About</a>
+        </div>
+    </nav>
+
+    <div class="result-container">
+        <div class="result-card">
+
+            {% if result == "FLOOD LIKELY" %}
+                <div class="result-icon">🌊</div>
+            {% else %}
+                <div class="result-icon">✅</div>
+            {% endif %}
+
+            <div class="result-title">Flood Risk Assessment Result</div>
+
+            <div class="result-box {% if result == 'FLOOD LIKELY' %}flood{% else %}no-flood{% endif %}">
+                {{ result }}
+            </div>
+
+            <p class="result-message">{{ message }}</p>
+
+            <!-- Risk Meter -->
+            <div class="risk-meter">
+                <h3><i class="fas fa-tachometer-alt"></i> Risk Level Indicator</h3>
+                <div class="meter-bar">
+                    {% if result == "FLOOD LIKELY" %}
+                        <div class="meter-fill" style="width: 85%; background: linear-gradient(90deg, #ff9800, #e53935);"></div>
+                    {% else %}
+                        <div class="meter-fill" style="width: 20%; background: linear-gradient(90deg, #43a047, #66bb6a);"></div>
+                    {% endif %}
+                </div>
+                <div class="meter-labels">
+                    <span>Low Risk</span>
+                    <span>Medium Risk</span>
+                    <span>High Risk</span>
+                </div>
+            </div>
+
+            <!-- Recommendations -->
+            <div class="recommendations">
+                {% if result == "FLOOD LIKELY" %}
+                    <h3><i class="fas fa-exclamation-triangle" style="color:red"></i> Immediate Actions Required</h3>
+                    <div class="rec-item"><i class="fas fa-broadcast-tower"></i> Issue flood alerts and warnings to residents immediately</div>
+                    <div class="rec-item"><i class="fas fa-truck"></i> Deploy emergency response teams and rescue equipment</div>
+                    <div class="rec-item"><i class="fas fa-home"></i> Arrange evacuation for low-lying and flood-prone areas</div>
+                    <div class="rec-item"><i class="fas fa-first-aid"></i> Set up emergency medical and relief camps</div>
+                    <div class="rec-item"><i class="fas fa-phone"></i> Activate disaster management control rooms</div>
+                {% else %}
+                    <h3><i class="fas fa-check-circle" style="color:green"></i> Precautionary Measures</h3>
+                    <div class="rec-item"><i class="fas fa-eye"></i> Continue monitoring weather conditions regularly</div>
+                    <div class="rec-item"><i class="fas fa-clipboard-check"></i> Keep disaster response plans updated and ready</div>
+                    <div class="rec-item"><i class="fas fa-tools"></i> Inspect and maintain drainage systems</div>
+                    <div class="rec-item"><i class="fas fa-users"></i> Conduct community awareness programs</div>
+                    <div class="rec-item"><i class="fas fa-database"></i> Update historical flood data records</div>
+                {% endif %}
+            </div>
+
+            <div class="btn-group">
+                <a href="/" class="btn btn-primary">
+                    <i class="fas fa-redo"></i> Predict Again
+                </a>
+                <a href="/about" class="btn btn-secondary">
+                    <i class="fas fa-info-circle"></i> About System
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+    <footer>
+        <p>🌊 FloodGuard AI — Powered by XGBoost Machine Learning | Built with Flask</p>
+    </footer>
+
+</body>
+</html>

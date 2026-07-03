@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - FloodGuard AI</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            min-height: 100vh;
+            color: white;
+        }
+        nav {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+        .nav-logo {
+            color: white;
+            font-size: 22px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 25px;
+            font-size: 15px;
+        }
+        .about-container {
+            max-width: 900px;
+            margin: 60px auto;
+            padding: 20px;
+        }
+        .about-title {
+            text-align: center;
+            font-size: 38px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+        .about-title span { color: #00d4ff; }
+        .about-subtitle {
+            text-align: center;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 50px;
+            font-size: 16px;
+        }
+        .cards-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .card h3 {
+            font-size: 17px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #00d4ff;
+        }
+        .card p {
+            font-size: 14px;
+            color: rgba(255,255,255,0.8);
+            line-height: 1.7;
+        }
+        .models-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        .models-table th {
+            background: rgba(0,212,255,0.2);
+            padding: 12px;
+            text-align: left;
+            font-size: 13px;
+        }
+        .models-table td {
+            padding: 12px;
+            font-size: 13px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.8);
+        }
+        .best { color: #00d4ff; font-weight: bold; }
+        .full-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255,255,255,0.2);
+            margin-bottom: 20px;
+        }
+        .full-card h3 {
+            font-size: 17px;
+            margin-bottom: 15px;
+            color: #00d4ff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 28px;
+            background: linear-gradient(135deg, #1a73e8, #0d47a1);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(26,115,232,0.4);
+        }
+        footer {
+            text-align: center;
+            color: rgba(255,255,255,0.5);
+            padding: 20px;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-logo">
+            <i class="fas fa-water"></i> FloodGuard AI
+        </div>
+        <div class="nav-links">
+            <a href="/"><i class="fas fa-home"></i> Home</a>
+            <a href="/about"><i class="fas fa-info-circle"></i> About</a>
+        </div>
+    </nav>
+
+    <div class="about-container">
+        <h1 class="about-title">About <span>FloodGuard AI</span></h1>
+        <p class="about-subtitle">A machine learning powered flood prediction and early warning system</p>
+
+        <div class="cards-grid">
+            <div class="card">
+                <h3><i class="fas fa-bullseye"></i> Project Objective</h3>
+                <p>To build an accurate and accessible flood prediction system using machine learning that helps authorities issue early warnings and manage disaster response effectively.</p>
+            </div>
+            <div class="card">
+                <h3><i class="fas fa-database"></i> Dataset</h3>
+                <p>Trained on over 1 million records with 20 environmental and meteorological features including monsoon intensity, deforestation levels, urbanization scores and more.</p>
+            </div>
+            <div class="card">
+                <h3><i class="fas fa-cogs"></i> Technology Stack</h3>
+                <p>Python, Scikit-learn, XGBoost, Flask, HTML, CSS. The best performing model is saved and served through a Flask web application.</p>
+            </div>
+            <div class="card">
+                <h3><i class="fas fa-cloud"></i> Deployment</h3>
+                <p>Designed for deployment on IBM Cloud making it scalable and accessible from any location by disaster management authorities.</p>
+            </div>
+        </div>
+
+        <div class="full-card">
+            <h3><i class="fas fa-chart-bar"></i> Model Performance Comparison</h3>
+            <table class="models-table">
+                <tr>
+                    <th>Model</th>
+                    <th>Accuracy</th>
+                    <th>Status</th>
+                </tr>
+                <tr>
+                    <td>Decision Tree</td>
+                    <td>64.03%</td>
+                    <td>Baseline</td>
+                </tr>
+                <tr>
+                    <td>K-Nearest Neighbours</td>
+                    <td>73.23%</td>
+                    <td>Good</td>
+                </tr>
+                <tr>
+                    <td>Random Forest</td>
+                    <td>77.63%</td>
+                    <td>Better</td>
+                </tr>
+                <tr>
+                    <td class="best">XGBoost</td>
+                    <td class="best">81.60%</td>
+                    <td class="best">✅ Best Model (Deployed)</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="full-card">
+            <h3><i class="fas fa-list-ol"></i> How It Works</h3>
+            <p style="color:rgba(255,255,255,0.8); line-height:1.8; font-size:14px;">
+                1. User enters 20 environmental and meteorological values into the form<br>
+                2. The Flask app receives the input and passes it to the XGBoost model<br>
+                3. The model analyses the data based on patterns learned from 1 million+ records<br>
+                4. A prediction is returned — either FLOOD LIKELY or NO FLOOD<br>
+                5. The result page displays the risk level along with recommended actions
+            </p>
+        </div>
+
+        <a href="/" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Back to Prediction
+        </a>
+    </div>
+
+    <footer>
+        <p>🌊 FloodGuard AI — Powered by XGBoost Machine Learning | Built with Flask</p>
+    </footer>
+</body>
+</html>
