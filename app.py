@@ -9,11 +9,6 @@ os.environ['OMP_NUM_THREADS'] = '1'
 
 app = Flask(__name__)
 
-# Load model and extract native booster to avoid sklearn wrapper version issues
-_model = joblib.load('model/flood_model.pkl')
-booster = _model.get_booster()
-booster.set_param({'nthread': 1})
-
 # Feature names must match exactly what the model was trained with
 FEATURE_NAMES = [
     'MonsoonIntensity', 'TopographyDrainage', 'RiverManagement', 'Deforestation',
@@ -23,6 +18,21 @@ FEATURE_NAMES = [
     'DeterioratingInfrastructure', 'PopulationScore', 'WetlandLoss',
     'InadequatePlanning', 'PoliticalFactors'
 ]
+
+# Lazy-load the model: load AFTER uWSGI forks the worker, not before.
+# Loading at module level causes OpenMP to deadlock inside forked processes.
+_booster = None
+
+def get_booster():
+    global _booster
+    if _booster is None:
+        _model = joblib.load(
+            os.path.join(os.path.dirname(__file__), 'model', 'flood_model.pkl')
+        )
+        _booster = _model.get_booster()
+        _booster.set_param({'nthread': 1})
+    return _booster
+
 
 @app.route('/')
 def home():
@@ -59,7 +69,7 @@ def predict():
 
     input_data = np.array([features])
     dmatrix = xgb.DMatrix(input_data, feature_names=FEATURE_NAMES)
-    raw_pred = booster.predict(dmatrix)
+    raw_pred = get_booster().predict(dmatrix)
     prediction = 1 if float(raw_pred[0]) > 0.5 else 0
 
     if prediction == 1:
