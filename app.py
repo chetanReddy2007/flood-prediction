@@ -4,11 +4,15 @@ import numpy as np
 import xgboost as xgb
 import os
 
+# Prevent XGBoost OpenMP threading deadlock in uWSGI single-process mode
+os.environ['OMP_NUM_THREADS'] = '1'
+
 app = Flask(__name__)
 
 # Load model and extract native booster to avoid sklearn wrapper version issues
 _model = joblib.load('model/flood_model.pkl')
 booster = _model.get_booster()
+booster.set_param({'nthread': 1})
 
 @app.route('/')
 def home():
