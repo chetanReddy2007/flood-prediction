@@ -1,14 +1,14 @@
 from flask import Flask, render_template, request
 import joblib
 import numpy as np
+import xgboost as xgb
 import os
 
 app = Flask(__name__)
 
-model = joblib.load('model/flood_model.pkl')
-# Fix XGBoost version compatibility: older pickled models missing this attribute
-if not hasattr(model, 'use_label_encoder'):
-    model.use_label_encoder = False
+# Load model and extract native booster to avoid sklearn wrapper version issues
+_model = joblib.load('model/flood_model.pkl')
+booster = _model.get_booster()
 
 @app.route('/')
 def home():
@@ -44,7 +44,9 @@ def predict():
     ]
 
     input_data = np.array([features])
-    prediction = model.predict(input_data)[0]
+    dmatrix = xgb.DMatrix(input_data)
+    raw_pred = booster.predict(dmatrix)
+    prediction = 1 if float(raw_pred[0]) > 0.5 else 0
 
     if prediction == 1:
         result = "FLOOD LIKELY"
