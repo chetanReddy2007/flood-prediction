@@ -14,6 +14,16 @@ _model = joblib.load('model/flood_model.pkl')
 booster = _model.get_booster()
 booster.set_param({'nthread': 1})
 
+# Feature names must match exactly what the model was trained with
+FEATURE_NAMES = [
+    'MonsoonIntensity', 'TopographyDrainage', 'RiverManagement', 'Deforestation',
+    'Urbanization', 'ClimateChange', 'DamsQuality', 'Siltation',
+    'AgriculturalPractices', 'Encroachments', 'IneffectiveDisasterPreparedness',
+    'DrainageSystems', 'CoastalVulnerability', 'Landslides', 'Watersheds',
+    'DeterioratingInfrastructure', 'PopulationScore', 'WetlandLoss',
+    'InadequatePlanning', 'PoliticalFactors'
+]
+
 @app.route('/')
 def home():
     return render_template('index.html')
@@ -48,7 +58,7 @@ def predict():
     ]
 
     input_data = np.array([features])
-    dmatrix = xgb.DMatrix(input_data)
+    dmatrix = xgb.DMatrix(input_data, feature_names=FEATURE_NAMES)
     raw_pred = booster.predict(dmatrix)
     prediction = 1 if float(raw_pred[0]) > 0.5 else 0
 
