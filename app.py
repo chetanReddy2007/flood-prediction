@@ -6,6 +6,9 @@ import os
 app = Flask(__name__)
 
 model = joblib.load('model/flood_model.pkl')
+# Fix XGBoost version compatibility: older pickled models missing this attribute
+if not hasattr(model, 'use_label_encoder'):
+    model.use_label_encoder = False
 
 @app.route('/')
 def home():
